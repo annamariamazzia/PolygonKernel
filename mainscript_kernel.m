@@ -1,15 +1,18 @@
 clear
 close all
-casotest=input('case test # (between 1 and 15)  ');
+casotest=input('case test # (between 1 and 16)  ');
 %%%%% case tests from #1 to #5 are taken by
-%   J.Zhao, X.Wang, An Algorithm to Searching for the Kernel of a 
+% J.Zhao, X.Wang, An Algorithm to Searching for the Kernel of a 
 % Simple Polygon, 2010 International Conference on Computer 
 % Application and System  Modeling (ICCASM 2010), Taiyuan, 2010, 
 % pp. V3-455-V3-457, doi:10.1109/ICCASM.2010.5620799.
 % case tests from #6 to #9 are taken by
 % https://github.com/gaganso/simple_polygon_kernel/blob/master/dll.py
-% case tests from #10 to #14 are taken by
+% case tests from #10 to #13 are taken by
 % https://github.com/filip256/PolygonKernel/blob/main/examples/
+% case test #14 is taken by 
+% S. Hong, H. Nagamochi,Convex drawings of graphs with non-convex 
+% boundary constraints, Discrete Applied Mathematics,156, No. 12, (2008), 2368--2380
 switch casotest
     case 1
        xvert=[20.4 5.6 24.7 30.2 67.4 59.9 63.6 43.5 41];
@@ -58,13 +61,16 @@ switch casotest
            454   405   423   455   487   459   420   374   417   470   510   528   527   534   547   545   544 ];
         yvert=[577   614   636   650   617   577   546   554   541   491   488   468   471   429   371   295   362   409   448   422 ...
             409   389   471   508   516   531   542   547   578   582   570   597   634   686   669   632   600];
-     case 14
+    case 14
+      xvert=[ 79   123   115   157   171   127   126   163   121   113    93    58    54    12    56    25    79    ];
+      yvert=[  0     0    43    24    37    75    92   150   127   153   117   148   117   112    73    33    34];  
+     case 15
        xvert=[1.1298    3.7151    6.6484   15.7468   16.6417   10.9739   10.2281    7.0462 ];
        yvert=[1.3440    3.3327    6.0175    5.2220   10.5915   11.0390   14.7678   14.7181  ];
-     case 15
+     case 16
         xvert=[0.0    0.3541    0.6805    0.6283    0.3495    0.1];
         yvert=[0.7967    0.6365    0.7967    0.1    0.3427    0.0994 ];
-    otherwise
+     otherwise
         error('there is no test associated to this number')
 end
 area_components=xvert.*yvert([2:end,1]) - ...
@@ -85,7 +91,7 @@ for i=1:length(xvert)
 text(xvert(i),yvert(i), num2str(i),'FontSize',14)
 end
 axis equal
-[kernx,kerny,kern_iel]=funkernel(xvert,yvert);
+[kernx,kerny,kernP]=funkernel(xvert,yvert);
 if ~isempty(kernx)
      plot(kernx,kerny,'mo','MarkerFaceColor','m')
      plot([kernx, kernx(1)], [kerny,kerny(1)],'m','LineWidth',2)
