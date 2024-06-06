@@ -45,7 +45,7 @@ if ~isempty(concP)
                [kernP1,kernx1,kerny1]=updatekern(ii,indsp1,...
                   iindp1,p(index),kernP1,kernx1,kerny1,xu,yu); 
              end
-             if (sarea1==1 || sarea3==1) 
+             if (sarea1==-1 || sarea3==-1) 
                [kernP1,indi]=setdiff(kernP1, s,'stable');
                kernx1=kernx1(indi);
                kerny1=kerny1(indi);
