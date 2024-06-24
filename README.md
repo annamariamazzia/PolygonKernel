@@ -1,4 +1,4 @@
-Content:
+# Content:
 
 You can find a MATLAB code to calculate the kernel of a polygon
 
@@ -8,5 +8,6 @@ funkernel.m : the function that computes the kernel
 
 the other files are auxiliary functions 
 
+## Paper
 This material is supplemental to a paper written by A. Mazzia
 University of Padova, Italy, and submitted for publication
