@@ -1,4 +1,4 @@
-function [xu, yu]=intersect(xa, ya, xb,yb, xs,ys,xt,yt)
+function [xu, yu]=intersectline(xa, ya, xb,yb, xs,ys,xt,yt)
 toll=1e-10;
 if abs(xa-xb)>toll 
     m1=(ya-yb)/(xa-xb);
