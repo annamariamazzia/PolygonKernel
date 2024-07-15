@@ -26,7 +26,7 @@ if ~isempty(concP)
            sarea1=orientation([xvim1 xvi xs],[yvim1 yvi ys]);
            sarea2=orientation([xvim1 xvi xsp1],[yvim1 yvi ysp1]);
            if sarea1==-sarea2 && sarea1~=0 
-              [xu, yu]=intersect(xvim1, yvim1, xvi,yvi,...
+              [xu, yu]=intersectline(xvim1, yvim1, xvi,yvi,...
                                      xs,ys,xsp1,ysp1);
               index=index+1; 
               p(index)=index;
@@ -38,7 +38,7 @@ if ~isempty(concP)
             sarea4=orientation([xvi xvip1 xsp1],[yvi yvip1 ysp1]);
             if sarea3==-sarea4 && sarea3~=0  && ...
                       (takenyes==0 || sarea1~=sarea3)      
-               [xu, yu]=intersect(xvi, yvi, xvip1,yvip1, ...
+               [xu, yu]=intersectline(xvi, yvi, xvip1,yvip1, ...
                                          xs,ys,xsp1,ysp1);
                 index=index+1; 
                 p(index)=index;
