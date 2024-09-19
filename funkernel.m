@@ -1,4 +1,9 @@
 function [kernx,kerny,kernP]=funkernel(xvert,yvert)
+% function [kernx,kerny,kernP]=funkernel(xvert,yvert)
+% input: xvert, yvert  - coordinates of the polygon
+% output: kernx, kerny - coordindates of the kernel points
+%         kernP  - list of kernel points 
+%                  (if not empty)
 nP=length(xvert); vert=1:nP;
 kernP=vert; kernx=xvert(vert); kerny=yvert(vert);
 convconcvert=zeros(1,nP);
@@ -15,7 +20,7 @@ if ~isempty(concP)
       i=1; ind=i; lk=length(kernP);
       while i<=lk
          s=kernP(i); ii=find(kernP1==s);
-         takenyes=0;
+         takenyes=0; pold=[];
          if  s~=iv
            indsp1=mod(i,lk)+1;
            iindp1=mod(ii,length(kernP1))+1;
@@ -26,24 +31,22 @@ if ~isempty(concP)
            sarea1=orientation([xvim1 xvi xs],[yvim1 yvi ys]);
            sarea2=orientation([xvim1 xvi xsp1],[yvim1 yvi ysp1]);
            if sarea1==-sarea2 && sarea1~=0 
-              [xu, yu]=intersectline(xvim1, yvim1, xvi,yvi,...
-                                     xs,ys,xsp1,ysp1);
+              [xu, yu]=intersectline(xvim1, yvim1, xvi,yvi,xs,ys,xsp1,ysp1);
               index=index+1; 
               p(index)=index;
-              takenyes=1;
-              [kernP1,kernx1,kerny1,ii,iindp1]=updatekern(ii,indsp1,...
+              takenyes=1; pold=index;
+              [kernP1,kernx1,kerny1,ii,iindp1]=updatekernel(ii,indsp1,...
                     iindp1,p(index),kernP1,kernx1,kerny1,xu,yu); 
             end 
             sarea3=orientation([xvi xvip1 xs],[yvi yvip1 ys]);
             sarea4=orientation([xvi xvip1 xsp1],[yvi yvip1 ysp1]);
             if sarea3==-sarea4 && sarea3~=0  && ...
-                      (takenyes==0 || sarea1~=sarea3)      
-               [xu, yu]=intersectline(xvi, yvi, xvip1,yvip1, ...
-                                         xs,ys,xsp1,ysp1);
+                      (takenyes==0 || sarea1~=sarea3)
+               [xu, yu]=intersectline(xvi, yvi, xvip1,yvip1,xs,ys,xsp1,ysp1);
                 index=index+1; 
                 p(index)=index;
-               [kernP1,kernx1,kerny1]=updatekern(ii,indsp1,...
-                  iindp1,p(index),kernP1,kernx1,kerny1,xu,yu); 
+               [kernP1,kernx1,kerny1]=updatekernel(ii,indsp1,...
+                  iindp1,p(index),kernP1,kernx1,kerny1,xu,yu,pold,takenyes); 
              end
              if (sarea1==-1 || sarea3==-1) 
                [kernP1,indi]=setdiff(kernP1, s,'stable');
@@ -61,5 +64,16 @@ if ~isempty(concP)
     end % end of if-statement on kernP
   end % end of for loop
 end % end of if-statement on concP
+%%%%%% final checks
+if length(kernP)<=2
+    kernP=[];kernx=[];kerny=[];
+end
+% if all components of kernx (and kerny) are equal
+% we have just a point: the kernel is empty
+ll=uniquetol(kernx,1e-06);
+mm=uniquetol(kerny,1e-6);
+if length(ll)<=2 && length(mm)<=2
+    kernx=[]; kerny=[];
+end
 end
                     
