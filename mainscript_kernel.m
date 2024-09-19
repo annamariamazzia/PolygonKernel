@@ -1,6 +1,6 @@
 clear
 close all
-casotest=input('case test # (between 1 and 16)  ');
+casotest=input('case test # (between 1 and 19)  ');
 %%%%% case tests from #1 to #5 are taken by
 % J.Zhao, X.Wang, An Algorithm to Searching for the Kernel of a 
 % Simple Polygon, 2010 International Conference on Computer 
@@ -70,7 +70,16 @@ switch casotest
      case 16
         xvert=[0.0    0.3541    0.6805    0.6283    0.3495    0.1];
         yvert=[0.7967    0.6365    0.7967    0.1    0.3427    0.0994 ];
-     otherwise
+    case 17 
+        xvert=[ 0.2681    0.3541    0.4423    0.5124    0.5826    0.6278    0.6278    0.8563    0.6482    0.4762    0.0826    0.3450];
+        yvert=[  0.0668    0.2448    0.4110    0.2448    0.0638    0.2982    0.4288    0.4674    0.5950    0.7018    0.4674    0.4733];
+    case 18
+        xvert=[ 0.5170    0.5170    0.5170    0.8133    0.9333    0.9333    0.6618    0.5215    0.5215    0.3043    0.3292    0.1233];
+        yvert=[ 0.0875    0.3220    0.4644    0.4644    0.4674    0.7136    0.7077    0.7166    0.9332    0.9362    0.4644    0.4763];
+    case 19
+        xvert=[10.9417   10.9417   10.9188   10.4162   10.1421    9.4567    9.1597    9.7766    9.0912   10.5533   10.7132   11.3757 ];
+        yvert=[11.9803   12.5971   13.4424   11.9118   11.4092   11.6833   10.7467   10.3583   10.1527    8.9876    8.1194    7.2742];
+    otherwise
         error('there is no test associated to this number')
 end
 area_components=xvert.*yvert([2:end,1]) - ...
@@ -100,4 +109,5 @@ if ~isempty(kernx)
  else
       title('kernel empty')
        axis equal
- end
+end
+axis off
