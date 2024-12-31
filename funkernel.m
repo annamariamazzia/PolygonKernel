@@ -65,15 +65,14 @@ if ~isempty(concP)
   end % end of for loop
 end % end of if-statement on concP
 %%%%%% final checks
-if length(kernP)<=2
-    kernP=[];kernx=[];kerny=[];
-end
-% if all components of kernx (and kerny) are equal
-% we have just a point: the kernel is empty
-ll=uniquetol(kernx,1e-06);
-mm=uniquetol(kerny,1e-6);
-if length(ll)<=2 && length(mm)<=2
-    kernx=[]; kerny=[];
+% if we have just 1 or 2 points: the kernel is empty
+% and eliminate repeated points
+C=uniquetol([kernx' kerny'],'ByRows',true);
+if size(C,1)<=2
+    kernP=[]; kernx=[]; kerny=[];
+elseif size(C,1)~=length(kernx)
+    kernx=C(:,1);
+    kerny=C(:,2);
 end
 end
                     
