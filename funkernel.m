@@ -67,10 +67,11 @@ end % end of if-statement on concP
 %%%%%% final checks
 % if we have just 1 or 2 points: the kernel is empty
 % and eliminate repeated points
-C=uniquetol([kernx' kerny'],'ByRows',true);
+[C,I]=uniquetol([kernx' kerny'],'ByRows',true);
 if size(C,1)<=2
     kernP=[]; kernx=[]; kerny=[];
 elseif size(C,1)~=length(kernx)
+    kernP=kernP(I);
     kernx=C(:,1);
     kerny=C(:,2);
 end
