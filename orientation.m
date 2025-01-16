@@ -1,5 +1,5 @@
 function ori=orientation(xcoord, ycoord)
-toll=1e-10;
+toll=eps;
 xcoord=xcoord(:);
 ycoord=ycoord(:);
 orien=det([ones(3,1), xcoord, ycoord]);
