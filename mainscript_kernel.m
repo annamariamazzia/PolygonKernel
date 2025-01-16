@@ -51,7 +51,7 @@ switch casotest
         yvert=[39   110   121   219   145   164    90   198   221   299   265   295   317   362   380   392   452   484   563   520 ...
            533   471   566   575   706   597   605   508   610   604   725   584   572   480   528   509   580   455   427   389 ...
           369   342   304   291   269   270   210   193    92   155   136   232   122   121    26   115   109   218   109   108 ];
-        yvert=-yvert; % the output figure of the example in github is up side down
+        yvert=-yvert; 
         % 
     case 12
         xvert=[ 456   358   362   491   677   729   763   621   456];
@@ -100,7 +100,7 @@ for i=1:length(xvert)
 text(xvert(i),yvert(i), num2str(i),'FontSize',14)
 end
 axis equal
-[kernx,kerny,kernP]=funkernel(xvert,yvert);
+[kernx,kerny,kernP,areak]=funkernel(xvert,yvert);
 if ~isempty(kernx)
      plot(kernx,kerny,'mo','MarkerFaceColor','m')
      plot([kernx, kernx(1)], [kerny,kerny(1)],'m','LineWidth',2)
@@ -110,4 +110,6 @@ if ~isempty(kernx)
       title('kernel empty')
        axis equal
 end
+fprintf(1,'area of the kernel %12.7e \n',areak);
+fprintf(1, 'number of vertices of the kernel %i \n', length(kernx))
 axis off
