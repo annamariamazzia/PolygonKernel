@@ -12,7 +12,7 @@ function convconcvert=concorconvnode(nP,xvert,yvert,iv)
     vettb=[xvert(ivm1)- xvert(iv),yvert(ivm1)- yvert(iv) ];
     alpha = atan2((det([vetta;vettb])),dot(vetta,vettb)); 
     alpha = mod(alpha,2*pi);
-    if alpha>pi/2 
+    if alpha>pi
         convconcvert=1; %concave vertex
     else
         convconcvert=0; %convex vertex
