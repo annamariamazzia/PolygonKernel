@@ -14,6 +14,14 @@ concP=find(convconcvert); % list of the concave vertices
 if ~isempty(concP)
   kernP1=kernP;  kernx1=kernx; kerny1=kerny;
   index=nP; p=vert;
+  concPaux=zeros(1,nP);
+   for iv=concP
+       ivm1=mod(iv-2,nP)+1; % index of the previous vertex
+       ivp1=mod(iv,nP)+1;    % index of the next vertex
+       concPaux(iv)=iv;
+       concPaux(ivp1)=ivp1; concPaux(ivm1)=ivm1;
+   end
+   concP=find(concPaux);
   for iv=concP
     if ~isempty(kernP)
       [xvi, yvi, xvim1, yvim1, xvip1, yvip1]=xycoord(nP,xvert,yvert,iv);
@@ -65,15 +73,17 @@ if ~isempty(concP)
   end % end of for loop
 end % end of if-statement on concP
 %%%%%% final checks
-% if we have just 1 or 2 points: the kernel is empty
-% and eliminate repeated points
-[C,I]=uniquetol([kernx' kerny'],'ByRows',true);
-if size(C,1)<=2
-    kernP=[]; kernx=[]; kerny=[];
-elseif size(C,1)~=length(kernx)
-    kernP=kernP(I);
-    kernx=C(:,1);
-    kerny=C(:,2);
+% computation of the kernel area  
+% If the points lie are on the same line  areak=0
+if isempty(kernx)
+         areak=0;
+ else
+ area_components=kernx.*kerny([2:end,1]) - ...
+                      kernx([2:end,1]).*kerny;
+ areak= 0.5*sum((area_components));
+end
+if abs(areak)<=1e-14
+    areak=0; kernx=[]; kerny=[];
 end
 end
                     
