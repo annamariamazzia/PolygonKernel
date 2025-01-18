@@ -1,4 +1,4 @@
-function [kernx,kerny,kernP]=funkernel(xvert,yvert)
+function [kernx,kerny,kernP,areak]=funkernel(xvert,yvert)
 % function [kernx,kerny,kernP]=funkernel(xvert,yvert)
 % input: xvert, yvert  - coordinates of the polygon
 % output: kernx, kerny - coordindates of the kernel points
@@ -10,18 +10,14 @@ convconcvert=zeros(1,nP);
 for iv=1:nP 
     convconcvert(iv)=concorconvnode(nP,xvert,yvert,iv);
 end
-concP=find(convconcvert); % list of the concave vertices
+concP=updatenodeconc(nP,convconcvert);
+   fprintf(1,'numero concPprima = %i \n', length(concP));
 if ~isempty(concP)
   kernP1=kernP;  kernx1=kernx; kerny1=kerny;
   index=nP; p=vert;
-  concPaux=zeros(1,nP);
-   for iv=concP
-       ivm1=mod(iv-2,nP)+1; % index of the previous vertex
-       ivp1=mod(iv,nP)+1;    % index of the next vertex
-       concPaux(iv)=iv;
-       concPaux(ivp1)=ivp1; concPaux(ivm1)=ivm1;
-   end
-   concP=find(concPaux);
+  concP=update2stepnodeconc(nP,concP); 
+ fprintf(1,'numero concPdopo = %i \n', length(concP));
+  %%%%%%
   for iv=concP
     if ~isempty(kernP)
       [xvi, yvi, xvim1, yvim1, xvip1, yvip1]=xycoord(nP,xvert,yvert,iv);
@@ -49,7 +45,7 @@ if ~isempty(concP)
             sarea3=orientation([xvi xvip1 xs],[yvi yvip1 ys]);
             sarea4=orientation([xvi xvip1 xsp1],[yvi yvip1 ysp1]);
             if sarea3==-sarea4 && sarea3~=0  && ...
-                      (takenyes==0 || sarea1~=sarea3)
+                     (takenyes==0 || sarea1~=sarea3)
                [xu, yu]=intersectline(xvi, yvi, xvip1,yvip1,xs,ys,xsp1,ysp1);
                 index=index+1; 
                 p(index)=index;
@@ -69,6 +65,10 @@ if ~isempty(concP)
        kernP=kernP1;
        kernx=kernx1;
        kerny=kerny1;
+       figure(1)
+%        plot([kernx,kernx(1)],[kerny,kerny(1)],'--')
+%        fprintf(1,'%i \n', kernP)
+%        fprintf(1,'------\n')
     end % end of if-statement on kernP
   end % end of for loop
 end % end of if-statement on concP
@@ -82,8 +82,10 @@ if isempty(kernx)
                       kernx([2:end,1]).*kerny;
  areak= 0.5*sum((area_components));
 end
-if abs(areak)<=1e-14
+if abs(areak)<=1e-10
     areak=0; kernx=[]; kerny=[];
 end
 end
+                    
+
                     
