@@ -6,6 +6,7 @@ function convconcvert=concorconvnode(nP,xvert,yvert,iv)
 %       iv  vertex
 % output convconcvert =1 if iv is a concave vertex
 %        convconvvert=0  if iv is a convex vertex
+%        convconcvert=2  if iv is a collinear vertex
      toll=1e-14;
     ivm1=mod(iv-2,nP)+1;
     ivp1=mod(iv,nP)+1;
@@ -13,9 +14,11 @@ function convconcvert=concorconvnode(nP,xvert,yvert,iv)
     vettb=[xvert(ivm1)- xvert(iv),yvert(ivm1)- yvert(iv) ];
     alpha = atan2((det([vetta;vettb])),dot(vetta,vettb)); 
     alpha = mod(alpha,2*pi);
-    if alpha-pi> toll 
+    if alpha> pi+ toll 
         convconcvert=1; %concave vertex
-    else
+    elseif alpha < pi -toll
         convconcvert=0; %convex vertex
-    end  
+    else 
+        convconcvert=2; % collinear 
+    end
 end
